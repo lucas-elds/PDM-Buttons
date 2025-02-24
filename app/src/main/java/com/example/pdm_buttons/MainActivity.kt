@@ -4,13 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.pdm_buttons.ui.theme.PDMButtonsTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,10 +21,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             PDMButtonsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Box(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        ButtonExamples()
+                    }
                 }
             }
         }
@@ -31,17 +36,48 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun ButtonExamples() {
+    var buttonText by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { buttonText = "You clicked the Filled Button!" }) {
+            Text("Filled Button")
+        }
+
+        FilledTonalButton(onClick = { buttonText = "You clicked the FilledTonal Button!" }) {
+            Text("Tonal Filled Button")
+        }
+
+        OutlinedButton(onClick = { buttonText = "You clicked the Outlined Button!" }) {
+            Text("Outlined Button")
+        }
+
+        ElevatedButton(onClick = { buttonText = "You clicked the Elevated Button!" }) {
+            Text("Elevated Button")
+        }
+
+        TextButton(onClick = { buttonText = "You clicked the Text Button!" }) {
+            Text("Text Button")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = buttonText,
+            textAlign = TextAlign.Center
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun ButtonPreview() {
     PDMButtonsTheme {
-        Greeting("Android")
+        ButtonExamples()
     }
 }
